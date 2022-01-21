@@ -1,0 +1,4 @@
+Network Module: https://registry.terraform.io/modules/Azure/network/azurerm/latest
+
+Virtual Machine Cluster: https://docs.microsoft.com/en-us/azure/developer/terraform/create-vm-cluster-with-infrastructure
+
