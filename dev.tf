@@ -1,13 +1,13 @@
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "2.92.0"
     }
   }
 }
 
-# BEGIN AND SETUP
+# Setup
 provider "azurerm" {
   features {}
 }
@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "dev" {
   location = "eastus"
 
   tags = {
-    "Terraform"   : "true"
+    "Terraform" : "true"
     "Environment" : "dev"
   }
 }
@@ -31,7 +31,7 @@ module "network" {
   subnet_names        = ["Sub1", "Sub2", "Sub3", "Sub4"]
 
   tags = {
-    "Terraform"   : "true"
+    "Terraform" : "true"
     "Environment" : "dev"
   }
 
@@ -40,16 +40,16 @@ module "network" {
 
 # Build the VMs
 resource "azurerm_public_ip" "dev" {
-   name                         = "publicIPForLB"
-   location                     = azurerm_resource_group.dev.location
-   resource_group_name          = azurerm_resource_group.dev.name
-   allocation_method            = "Static"
+  name                = "publicIPForLB"
+  location            = azurerm_resource_group.dev.location
+  resource_group_name = azurerm_resource_group.dev.name
+  allocation_method   = "Static"
 
-   tags = {
-    "Terraform"   : "true"
+  tags = {
+    "Terraform" : "true"
     "Environment" : "dev"
   }
- }
+}
 
 resource "azurerm_network_interface" "dev" {
   count               = 2
@@ -64,11 +64,10 @@ resource "azurerm_network_interface" "dev" {
   }
 
   tags = {
-    "Terraform"   : "true"
+    "Terraform" : "true"
     "Environment" : "dev"
   }
 }
-
 
 resource "azurerm_managed_disk" "dev" {
   count                = 2
@@ -78,10 +77,10 @@ resource "azurerm_managed_disk" "dev" {
   storage_account_type = "Standard_LRS"
   create_option        = "Empty"
   disk_size_gb         = "256"
-  
+
   tags = {
-   "Terraform"   : "true"
-   "Environment" : "dev"
+    "Terraform" : "true"
+    "Environment" : "dev"
   }
 }
 
@@ -94,21 +93,20 @@ resource "azurerm_availability_set" "dev" {
   managed                      = true
 
   tags = {
-    "Terraform"   : "true"
+    "Terraform" : "true"
     "Environment" : "dev"
   }
 }
 
-/*
 resource "azurerm_virtual_machine" "dev" {
-  count                 = 2
-  name                  = "acctvm${count.index}"
-  location              = azurerm_resource_group.dev.location
-  availability_set_id   = azurerm_availability_set.dev.id
-  resource_group_name   = azurerm_resource_group.dev.name
-  network_interface_ids = [element(azurerm_network_interface.dev.*.id, count.index)]
-  vm_size               = "Standard_DS1_v2"
-  delete_os_disk_on_termination = true
+  count                            = 2
+  name                             = "vmdev-${count.index}"
+  location                         = azurerm_resource_group.dev.location
+  availability_set_id              = azurerm_availability_set.dev.id
+  resource_group_name              = azurerm_resource_group.dev.name
+  network_interface_ids            = [element(azurerm_network_interface.dev.*.id, count.index)]
+  vm_size                          = "Standard_DS1_v2"
+  delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
 
   storage_image_reference {
@@ -119,7 +117,7 @@ resource "azurerm_virtual_machine" "dev" {
   }
 
   storage_os_disk {
-    name              = "myosdisk${count.index}"
+    name              = "myosdisk-${count.index}"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -144,11 +142,10 @@ resource "azurerm_virtual_machine" "dev" {
   }
 
   tags = {
-    "Terraform"   : "true"
+    "Terraform" : "true"
     "Environment" : "dev"
   }
 }
-*/
 
 # Outputs
 output "Internal_NIC1" {
