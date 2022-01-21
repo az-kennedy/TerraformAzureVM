@@ -58,7 +58,7 @@ resource "azurerm_network_interface" "dev" {
   resource_group_name = azurerm_resource_group.dev.name
 
   ip_configuration {
-    name                          = "testConfiguration"
+    name                          = "devConfiguration"
     subnet_id                     = module.network.vnet_subnets.1
     private_ip_address_allocation = "dynamic"
   }
@@ -69,7 +69,7 @@ resource "azurerm_network_interface" "dev" {
   }
 }
 
-/*
+
 resource "azurerm_managed_disk" "dev" {
   count                = 2
   name                 = "datadisk_existing_${count.index}"
@@ -99,6 +99,7 @@ resource "azurerm_availability_set" "dev" {
   }
 }
 
+/*
 resource "azurerm_virtual_machine" "dev" {
   count                 = 2
   name                  = "acctvm${count.index}"
