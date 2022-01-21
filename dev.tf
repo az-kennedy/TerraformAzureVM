@@ -53,7 +53,7 @@ resource "azurerm_public_ip" "dev" {
 
 resource "azurerm_network_interface" "dev" {
   count               = 2
-  name                = "vmlinuxrh2022${count.index}"
+  name                = "vmlinuxrh2022-${count.index}"
   location            = azurerm_resource_group.dev.location
   resource_group_name = azurerm_resource_group.dev.name
 
@@ -69,9 +69,6 @@ resource "azurerm_network_interface" "dev" {
   }
 }
 
-output "SubNetID" {
-  value = module.network.vnet_subnets
-}
 /*
 resource "azurerm_managed_disk" "dev" {
   count                = 2
@@ -153,3 +150,12 @@ resource "azurerm_virtual_machine" "dev" {
 */
 
 # Outputs
+output "NIC1" {
+  value       = azurerm_network_interface.dev.0.private_ip_address
+  description = "IP of the first NIC"
+}
+
+output "NIC2" {
+  value       = azurerm_network_interface.dev.1.private_ip_address
+  description = "IP of the second NIC"
+}
