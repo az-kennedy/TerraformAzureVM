@@ -22,6 +22,7 @@ resource "azurerm_resource_group" "dev" {
   }
 }
 
+# Build out the network
 module "network" {
   source              = "Azure/network/azurerm"
   resource_group_name = azurerm_resource_group.dev.name
@@ -37,41 +38,74 @@ module "network" {
   depends_on = [azurerm_resource_group.dev]
 }
 
+output "vnet_id" {
+  description = "The id of the newly created vNet"
+  value       = azurerm_virtual_network.vnet.id
+}
 
+output "vnet_name" {
+  description = "The name of the newly created vNet"
+  value       = azurerm_virtual_network.vnet.name
+}
 
+output "vnet_location" {
+  description = "The location of the newly created vNet"
+  value       = azurerm_virtual_network.vnet.location
+}
+
+output "vnet_address_space" {
+  description = "The address space of the newly created vNet"
+  value       = azurerm_virtual_network.vnet.address_space
+}
+
+output "vnet_subnets" {
+  description = "The ids of subnets created inside the newly created vNet"
+  value       = azurerm_subnet.subnet.*.id
+}
+
+# Build the VMs
 resource "azurerm_public_ip" "dev" {
    name                         = "publicIPForLB"
    location                     = azurerm_resource_group.dev.location
    resource_group_name          = azurerm_resource_group.dev.name
    allocation_method            = "Static"
- }
 
-resource "azurerm_lb" "dev" {
-  name                = "loadBalancer"
-  location            = azurerm_resource_group.dev.location
-  resource_group_name = azurerm_resource_group.dev.name
-
-  frontend_ip_configuration {
-    name                 = "publicIPAddress"
-    public_ip_address_id = azurerm_public_ip.dev.id
+   tags = {
+    "Terraform"   : "true"
+    "Environment" : "dev"
   }
-}
-
-resource "azurerm_lb_backend_address_pool" "dev" {
-  loadbalancer_id     = azurerm_lb.dev.id
-  name                = "BackEndAddressPool"
-}
+ }
 
 resource "azurerm_network_interface" "dev" {
   count               = 2
-  name                = "acctni${count.index}"
+  name                = "vmlinuxrh2022${count.index}"
   location            = azurerm_resource_group.dev.location
   resource_group_name = azurerm_resource_group.dev.name
 
   ip_configuration {
     name                          = "testConfiguration"
-    subnet_id                     = network.vnet_subnets.Sub2.id
+    subnet_id                     = azurerm_subnet.subnet.1.id
     private_ip_address_allocation = "dynamic"
+  }
+
+  tags = {
+    "Terraform"   : "true"
+    "Environment" : "dev"
+  }
+}
+
+resource "azurerm_managed_disk" "dev" {
+  count                = 2
+  name                 = "datadisk_existing_${count.index}"
+  location             = azurerm_resource_group.dev.location
+  resource_group_name  = azurerm_resource_group.dev.name
+  storage_account_type = "Standard_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = "256"
+  
+  tags = {
+   "Terraform"   : "true"
+   "Environment" : "dev"
   }
 }
 
@@ -82,9 +116,12 @@ resource "azurerm_availability_set" "dev" {
   platform_fault_domain_count  = 2
   platform_update_domain_count = 2
   managed                      = true
-}
 
- 
+  tags = {
+    "Terraform"   : "true"
+    "Environment" : "dev"
+  }
+}
 
 resource "azurerm_virtual_machine" "dev" {
   count                 = 2

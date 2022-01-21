@@ -2,3 +2,4 @@ Network Module: https://registry.terraform.io/modules/Azure/network/azurerm/late
 
 Virtual Machine Cluster: https://docs.microsoft.com/en-us/azure/developer/terraform/create-vm-cluster-with-infrastructure
 
+Output Variables: https://www.terraform.io/language/values/outputs
