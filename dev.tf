@@ -151,12 +151,17 @@ resource "azurerm_virtual_machine" "dev" {
 */
 
 # Outputs
-output "NIC1" {
+output "Internal_NIC1" {
   value       = azurerm_network_interface.dev.0.private_ip_address
   description = "IP of the first NIC"
 }
 
-output "NIC2" {
+output "Internal_NIC2" {
   value       = azurerm_network_interface.dev.1.private_ip_address
   description = "IP of the second NIC"
+}
+
+output "LB_IP" {
+  value       = azurerm_public_ip.dev.ip_address
+  description = "Public IP of the load balancer"
 }
