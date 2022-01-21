@@ -2,4 +2,8 @@ Network Module: https://registry.terraform.io/modules/Azure/network/azurerm/late
 
 Virtual Machine Cluster: https://docs.microsoft.com/en-us/azure/developer/terraform/create-vm-cluster-with-infrastructure
 
+Understanding Modules: https://www.youtube.com/watch?v=7jnuTdhxjhw
+
 Output Variables: https://www.terraform.io/language/values/outputs
+
+More Output Variables: https://stackoverflow.com/questions/64083332/managed-resource-azurerm-virtual-network-has-not-been-declared-in-module
