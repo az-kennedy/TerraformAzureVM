@@ -2,7 +2,7 @@ resource "azurerm_network_interface" "sub1" {
   count                = 2
   name                 = "vmrhsub1-${count.index}"
   location             = var.location
-  resource_group_name  = var.name
+  resource_group_name  = var.resource_group_name
 
   ip_configuration {
     name                          = "sub1Configuration"
