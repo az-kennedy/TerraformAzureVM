@@ -1,5 +1,7 @@
 #!/bin/bash
-echo "*** Installing apache2"
+echo "*** Installing apache"
 sudo yum update -y
-sudo yum install apache2 -y
+sudo yum update httpd -y
+sudo systemctl start httpd
+sudo systemctl status httpd
 echo "*** Completed Installing apache2"
