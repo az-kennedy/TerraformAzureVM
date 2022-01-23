@@ -1,7 +1,8 @@
 #!/bin/bash
 echo "*** Installing apache"
-sudo yum update -y
-sudo yum install httpd22 -y
-sudo systemctl enable httpd22.service
-sudo systemctl start httpd22.service
+dnf install httpd
+systemctl enable httpd
+systemctl start httpd
+firewall-cmd --zone=public --permanent --add-service=http
+firewall-cmd --reload
 echo "*** Completed Installing apache2"

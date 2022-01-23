@@ -41,7 +41,7 @@ resource "azurerm_virtual_machine" "sub3" {
   storage_image_reference {
     publisher = "RedHat"
     offer     = "RHEL"
-    sku       = "7.4"
+    sku       = "8-LVM"
     version   = "latest"
   }
 
@@ -76,7 +76,7 @@ resource "azurerm_virtual_machine" "sub3" {
   }
 }
 
-/*
+
 resource "azurerm_virtual_machine_extension" "sub3" {
   name                 = "apacheInstall"
   virtual_machine_id   = azurerm_virtual_machine.sub3.id
@@ -96,7 +96,7 @@ resource "azurerm_virtual_machine_extension" "sub3" {
     "Subnet" : "3"
   }
 }
-*/
+
 
 
 resource "azurerm_network_security_group" "sub3" {
