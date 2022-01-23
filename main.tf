@@ -55,16 +55,6 @@ resource "azurerm_public_ip" "lb" {
   }
 }
 
-/*
-resource "azurerm_public_ip" "lbGateway" {
-  name                = "PublicIPForGateway"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
-}
-*/
-
 # Create Infrastructure for Subnet 1
 module "subnet1" {
   source              = "./subnet1"

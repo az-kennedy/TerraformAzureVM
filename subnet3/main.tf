@@ -41,7 +41,7 @@ resource "azurerm_virtual_machine" "sub3" {
   storage_image_reference {
     publisher = "RedHat"
     offer     = "RHEL"
-    sku       = "8"
+    sku       = "8.1"
     version   = "latest"
   }
 
