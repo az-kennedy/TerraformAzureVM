@@ -29,6 +29,13 @@ module "network" {
   subnet_prefixes     = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   subnet_names        = ["Sub1", "Sub2", "Sub3", "Sub4"]
 
+  subnet_service_endpoints = {
+    "Sub1" : ["Microsoft.Storage"], 
+    "Sub2" : ["Microsoft.Storage"],
+    "Sub3" : ["Microsoft.Storage"],
+    "Sub4" : ["Microsoft.Storage"]
+  }
+
   tags = {
     "Terraform" : "true"
   }
@@ -78,7 +85,7 @@ module "subnet3" {
   lb_ip_address       = azurerm_public_ip.lb.ip_address 
 }
 
-
+# Create the Load Balancer
 module "loadbalancer" {
   source              = "./loadbalancer"
   resource_group_name = azurerm_resource_group.rg.name
@@ -87,4 +94,23 @@ module "loadbalancer" {
   vnet_id             = module.network.vnet_id
   vm_sub3_ip          = module.subnet3.vm_sub3_ip
 
+}
+
+
+# Create the Storage Account
+resource "azurerm_storage_account" "sa" {
+  name                     = "mystorageaccount01232022"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+
+  network_rules {
+    default_action             = "Deny"
+    virtual_network_subnet_ids = module.network.vnet_subnets
+  }
+
+  tags = {
+    "Terraform" : "true"
+  }
 }
