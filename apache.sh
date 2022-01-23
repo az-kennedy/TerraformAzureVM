@@ -1,8 +1,9 @@
 #!/bin/bash
 echo "*** Installing apache"
-dnf install httpd
-systemctl enable httpd
-systemctl start httpd
-firewall-cmd --zone=public --permanent --add-service=http
-firewall-cmd --reload
+sudo dnf install httpd
+sudo systemctl enable httpd.service
+sudo systemctl start httpd.service
+sudo firewall-cmd --zone=public --permanent --add-service=http
+sudo firewall-cmd --reload
+
 echo "*** Completed Installing apache2"

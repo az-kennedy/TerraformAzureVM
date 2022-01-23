@@ -114,3 +114,8 @@ resource "azurerm_storage_account" "sa" {
     "Terraform" : "true"
   }
 }
+
+output "Public_Load_Balancer_IP" {
+  value       = azurerm_public_ip.lb.ip_address
+  description = "Public IP of the load balancer"
+}
