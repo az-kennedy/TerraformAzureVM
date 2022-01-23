@@ -41,6 +41,15 @@ resource "azurerm_public_ip" "lb" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
+resource "azurerm_public_ip" "lbGateway" {
+  name                = "PublicIPForGateway"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 # Create Infrastructure for Subnet 1
@@ -63,11 +72,12 @@ module "subnet3" {
   lb_ip_address       = azurerm_public_ip.lb.ip_address 
 }
 
-# Load Balancer Code
+# Load Balancer Code and NAT Gateway
 resource "azurerm_lb" "lb" {
   name                = "LoadBalancer"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "Standard"
 
   frontend_ip_configuration {
     name                 = "PublicIPAddress"
@@ -85,4 +95,42 @@ resource "azurerm_lb_backend_address_pool_address" "lb" {
   backend_address_pool_id = azurerm_lb_backend_address_pool.lb.id
   virtual_network_id      = module.network.vnet_id
   ip_address              = module.subnet3.ip
+}
+
+resource "azurerm_lb_rule" "lb" {
+  resource_group_name            = azurerm_resource_group.rg.name
+  loadbalancer_id                = azurerm_lb.lb.id
+  name                           = "http"
+  protocol                       = "Tcp"
+  frontend_port                  = 80
+  backend_port                   = 80
+  frontend_ip_configuration_name = "PublicIPAddress"
+  enable_tcp_reset               = "true"
+}
+
+resource "azurerm_lb_nat_rule" "lb" {
+  resource_group_name            = azurerm_resource_group.rg.name
+  loadbalancer_id                = azurerm_lb.lb.id
+  name                           = "myNATRule"
+  protocol                       = "Tcp"
+  frontend_port                  = 80
+  backend_port                   = 80
+  frontend_ip_configuration_name = "PublicIPAddress"
+}
+
+resource "azurerm_nat_gateway" "lb" {
+  name                = "lb-NatGateway"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku_name            = "Standard"
+}
+
+resource "azurerm_subnet_nat_gateway_association" "lb" {
+  subnet_id      = module.network.vnet_subnets.2
+  nat_gateway_id = azurerm_nat_gateway.lb.id
+}
+
+resource "azurerm_nat_gateway_public_ip_association" "lb" {
+  nat_gateway_id       = azurerm_nat_gateway.lb.id
+  public_ip_address_id = azurerm_public_ip.lbGateway.id
 }

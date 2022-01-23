@@ -131,9 +131,3 @@ resource "azurerm_network_security_group" "sub3" {
     "Subnet" : "3"
   }
 }
-
-resource "azurerm_subnet_network_security_group_association" "sub3" {
-  count = 4
-  subnet_id                 = element(var.vnet_subnets.*, count.index)
-  network_security_group_id = azurerm_network_security_group.sub3.id
-}
