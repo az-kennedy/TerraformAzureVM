@@ -12,3 +12,13 @@ variable "vnet_subnets" {
   type        = list(string)
   description = "list of subnets"
 }
+
+variable "vnet_address_space" {
+  type        = list(string)
+  description = "address space of vnet"
+}
+
+variable "lb_ip_address" {
+  type        = string
+  description = "public ip of load balancer"
+}
