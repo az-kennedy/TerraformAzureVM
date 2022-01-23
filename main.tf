@@ -55,8 +55,20 @@ resource "azurerm_public_ip" "lb" {
   }
 }
 
-resource "azurerm_public_ip" "vmsub1" {
-  name                = "PublicIPForLB"
+resource "azurerm_public_ip" "vmsub1_1" {
+  name                = "PublicIPForVMSub1-1"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+
+  tags = {
+    "Terraform" : "true"
+  }
+}
+
+resource "azurerm_public_ip" "vmsub1_2" {
+  name                = "PublicIPForVMSub1-2"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
@@ -74,7 +86,7 @@ module "subnet1" {
   location            = azurerm_resource_group.rg.location
   vnet_subnets        = module.network.vnet_subnets
   vnet_address_space  = module.network.vnet_address_space
-  vm_public_ip        = azurerm_public_ip.vmsub1.ip_address
+  vm_public_ip_ids    = [azurerm_public_ip.vmsub1_1.id, azurerm_public_ip.vmsub1_2.id]
 
 }
 
@@ -120,5 +132,10 @@ resource "azurerm_storage_account" "sa" {
 
 output "Public_Load_Balancer_IP" {
   value       = azurerm_public_ip.lb.ip_address
+  description = "Public IP of the load balancer"
+}
+
+output "Public_VM_IPS_Subnet1" {
+  value       = [azurerm_public_ip.vmsub1_1.ip_address, azurerm_public_ip.vmsub1_2.ip_address]
   description = "Public IP of the load balancer"
 }

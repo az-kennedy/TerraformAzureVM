@@ -8,7 +8,7 @@ resource "azurerm_network_interface" "sub1" {
     name                          = "sub1Configuration"
     subnet_id                     = var.vnet_subnets.0
     private_ip_address_allocation = "dynamic"
-    public_ip_address_id          = var.vm_public_ip
+    public_ip_address_id          = var.vm_public_ip_ids[count.index]
   }
 
   tags = {
@@ -101,7 +101,7 @@ resource "azurerm_network_security_group" "sub1" {
   resource_group_name = var.resource_group_name
 
   security_rule {
-    name                       = "ssh"
+    name                       = "ssh1"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
@@ -113,7 +113,7 @@ resource "azurerm_network_security_group" "sub1" {
   }
 
   security_rule {
-    name                       = "ssh"
+    name                       = "ssh2"
     priority                   = 101
     direction                  = "Inbound"
     access                     = "Allow"
