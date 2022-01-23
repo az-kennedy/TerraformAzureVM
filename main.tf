@@ -41,11 +41,12 @@ module "subnet1" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   vnet_subnets        = module.network.vnet_subnets
+  vnet_address_space  = module.network.vnet_address_space
 
 }
 
-module "subnet2" {
-  source              = "./subnet2"
+module "subnet3" {
+  source              = "./subnet3"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   vnet_subnets        = module.network.vnet_subnets
