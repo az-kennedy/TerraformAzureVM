@@ -17,3 +17,8 @@ variable "vnet_address_space" {
   type        = list(string)
   description = "address space of vnet"
 }
+
+variable "vm_public_ip" {
+  type        = string
+  description = "Public IP of the VM"
+}

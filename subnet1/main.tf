@@ -8,6 +8,7 @@ resource "azurerm_network_interface" "sub1" {
     name                          = "sub1Configuration"
     subnet_id                     = var.vnet_subnets.0
     private_ip_address_allocation = "dynamic"
+    public_ip_address_id          = var.vm_public_ip
   }
 
   tags = {
@@ -107,10 +108,22 @@ resource "azurerm_network_security_group" "sub1" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = var.vnet_address_space.0
+    source_address_prefix      = "23.125.203.160"
     destination_address_prefix = "*"
   }
 
+  security_rule {
+    name                       = "ssh"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = var.vnet_address_space.0
+    destination_address_prefix = "*"
+  }
+  
   tags = {
     "Terraform" : "true"
     "Subnet" : "1"

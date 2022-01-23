@@ -55,6 +55,18 @@ resource "azurerm_public_ip" "lb" {
   }
 }
 
+resource "azurerm_public_ip" "vmsub1" {
+  name                = "PublicIPForLB"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+
+  tags = {
+    "Terraform" : "true"
+  }
+}
+
 # Create Infrastructure for Subnet 1
 module "subnet1" {
   source              = "./subnet1"
@@ -62,6 +74,7 @@ module "subnet1" {
   location            = azurerm_resource_group.rg.location
   vnet_subnets        = module.network.vnet_subnets
   vnet_address_space  = module.network.vnet_address_space
+  vm_public_ip        = azurerm_public_ip.vmsub1.ip_address
 
 }
 
