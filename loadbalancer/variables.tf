@@ -13,6 +13,12 @@ variable "lb_public_ip_id" {
   description = "public ip of load blanacer"
 }
 
+variable lb_outbound_public_ip_id {
+  type        = string
+  description = "public ip of load balancer outbound"
+}
+
+
 variable "vnet_id" {
   type        = string
   description = "vnet id"
@@ -22,3 +28,4 @@ variable "vm_sub3_ip" {
   type        = string
   description = "ip of vm instance in subnet 3"
 }
+

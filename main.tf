@@ -55,6 +55,18 @@ resource "azurerm_public_ip" "lb" {
   }
 }
 
+resource "azurerm_public_ip" "lbOutbound" {
+  name                = "PublicIPForLBOutbound"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+
+  tags = {
+    "Terraform" : "true"
+  }
+}
+
 resource "azurerm_public_ip" "vmsub1_1" {
   name                = "PublicIPForVMSub1-1"
   location            = azurerm_resource_group.rg.location
@@ -100,16 +112,18 @@ module "subnet3" {
   lb_ip_address       = azurerm_public_ip.lb.ip_address
 }
 
+/*
 # Create the Load Balancer
 module "loadbalancer" {
-  source              = "./loadbalancer"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  lb_public_ip_id     = azurerm_public_ip.lb.id
-  vnet_id             = module.network.vnet_id
-  vm_sub3_ip          = module.subnet3.vm_sub3_ip
-
+  source                   = "./loadbalancer"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  lb_public_ip_id          = azurerm_public_ip.lb.id
+  lb_outbound_public_ip_id = azurerm_public_ip.lbOutbound.id
+  vnet_id                  = module.network.vnet_id
+  vm_sub3_ip               = module.subnet3.vm_sub3_ip
 }
+*/
 
 
 # Create the Storage Account
@@ -132,6 +146,11 @@ resource "azurerm_storage_account" "sa" {
 
 output "Public_Load_Balancer_IP" {
   value       = azurerm_public_ip.lb.ip_address
+  description = "Public IP of the load balancer"
+}
+
+output "Public_Load_Balancer_IP_Outbound" {
+  value       = azurerm_public_ip.lbOutbound.ip_address
   description = "Public IP of the load balancer"
 }
 
