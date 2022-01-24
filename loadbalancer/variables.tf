@@ -18,7 +18,6 @@ variable "lb_outbound_public_ip_id" {
   description = "public ip of load balancer outbound"
 }
 
-
 variable "vnet_id" {
   type        = string
   description = "vnet id"

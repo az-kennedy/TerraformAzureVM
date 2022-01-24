@@ -115,7 +115,6 @@ module "subnet3" {
   depends_on = [module.network]
 }
 
-
 # Create the Load Balancer
 module "loadbalancer" {
   source                   = "./loadbalancer"
@@ -128,7 +127,6 @@ module "loadbalancer" {
 
   depends_on = [module.subnet3]
 }
-
 
 # Create the Storage Account
 resource "azurerm_storage_account" "sa" {
