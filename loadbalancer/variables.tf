@@ -13,7 +13,7 @@ variable "lb_public_ip_id" {
   description = "public ip of load blanacer"
 }
 
-variable lb_outbound_public_ip_id {
+variable "lb_outbound_public_ip_id" {
   type        = string
   description = "public ip of load balancer outbound"
 }

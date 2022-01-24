@@ -1,10 +1,10 @@
-Network Module: https://registry.terraform.io/modules/Azure/network/azurerm/latest
+Network Terraform Module: https://registry.terraform.io/modules/Azure/network/azurerm/latest
 
-Virtual Machine Cluster: https://docs.microsoft.com/en-us/azure/developer/terraform/create-vm-cluster-with-infrastructure
+Azure Virtual Machine Cluster: https://docs.microsoft.com/en-us/azure/developer/terraform/create-vm-cluster-with-infrastructure
 
-Understanding Modules: https://www.youtube.com/watch?v=7jnuTdhxjhw
+Understanding Terraform Modules: https://www.youtube.com/watch?v=7jnuTdhxjhw
 
-Output Variables: https://www.terraform.io/language/values/outputs
+Using Output Variables: https://www.terraform.io/language/values/outputs
 
 More Output Variables: https://stackoverflow.com/questions/64083332/managed-resource-azurerm-virtual-network-has-not-been-declared-in-module
 
@@ -14,7 +14,7 @@ Custom Script Installation on Azure VM: https://registry.terraform.io/providers/
 
 Custom Script Installation on Azure VM: https://octopus.com/blog/azure-script-extension
 
-Installing Apache on Red Hat Linux : https://access.redhat.com/documentation/en-us/jboss_enterprise_application_platform/6.3/html/administration_and_configuration_guide/install_the_apache_httpd_in_red_hat_enterprise_linux_with_jboss_eap_6_rpm
+Installing Apache on Red Hat Linux: https://access.redhat.com/documentation/en-us/jboss_enterprise_application_platform/6.3/html/administration_and_configuration_guide/install_the_apache_httpd_in_red_hat_enterprise_linux_with_jboss_eap_6_rpm
 
-Tutorial for port forwarding in a load balancer : https://docs.microsoft.com/en-us/azure/load-balancer/quickstart-load-balancer-standard-public-cli?tabs=option-1-create-load-balancer-standard
+Tutorial for port forwarding in a load balancer: https://docs.microsoft.com/en-us/azure/load-balancer/quickstart-load-balancer-standard-public-cli?tabs=option-1-create-load-balancer-standard
 
