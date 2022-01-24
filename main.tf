@@ -148,13 +148,8 @@ resource "azurerm_storage_account" "sa" {
   }
 }
 
-output "Public_Load_Balancer_IP" {
+output "Public_Load_Balancer_IP_Apache" {
   value       = azurerm_public_ip.lb.ip_address
-  description = "Public IP of the load balancer"
-}
-
-output "Public_Load_Balancer_IP_Outbound" {
-  value       = azurerm_public_ip.lbOutbound.ip_address
   description = "Public IP of the load balancer"
 }
 
