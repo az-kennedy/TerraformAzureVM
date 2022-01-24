@@ -48,7 +48,7 @@ resource "azurerm_availability_set" "sub1" {
 
 resource "azurerm_virtual_machine" "dev" {
   count                            = 2
-  name                             = "vmdev-${count.index}"
+  name                             = "vmrhsub1-${count.index}"
   location                         = var.location
   availability_set_id              = azurerm_availability_set.sub1.id
   resource_group_name              = var.resource_group_name
@@ -131,7 +131,6 @@ resource "azurerm_network_security_group" "sub1" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "sub1" {
-  count = 4
-  subnet_id                 = element(var.vnet_subnets.*, count.index)
+  subnet_id                 = var.vnet_subnets.0
   network_security_group_id = azurerm_network_security_group.sub1.id
 }

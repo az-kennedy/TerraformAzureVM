@@ -105,20 +105,8 @@ resource "azurerm_network_security_group" "sub3" {
   resource_group_name = var.resource_group_name
 
   security_rule {
-    name                       = "AllowInternal"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = var.vnet_address_space.0
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
     name                       = "AllowLoadBalancer"
-    priority                   = 101
+    priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "*"
@@ -128,8 +116,25 @@ resource "azurerm_network_security_group" "sub3" {
     destination_address_prefix = "*"
   }
 
+  security_rule {
+    name                       = "AllowInternal"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = var.vnet_address_space.0
+    destination_address_prefix = "*"
+  }
+
   tags = {
     "Terraform" : "true"
     "Subnet" : "3"
   }
+}
+
+resource "azurerm_subnet_network_security_group_association" "sub3" {
+  subnet_id                 = var.vnet_subnets.2
+  network_security_group_id = azurerm_network_security_group.sub3.id
 }

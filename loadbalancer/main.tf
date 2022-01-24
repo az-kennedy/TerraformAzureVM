@@ -9,6 +9,11 @@ resource "azurerm_lb" "lb" {
     name                 = "PublicIPAddress"
     public_ip_address_id = var.lb_public_ip_id
   }
+
+  tags = {
+    "Terraform" : "true"
+    "loadbalancer" : "true"
+  }
 }
 
 # Create backend pool
@@ -42,4 +47,5 @@ resource "azurerm_lb_rule" "lb" {
   enable_tcp_reset               = "true"
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.lb.id]
   probe_id                       = azurerm_lb_probe.lb.id
+  disable_outbound_snat          = "true"
 }
