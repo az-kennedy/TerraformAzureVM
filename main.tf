@@ -112,7 +112,7 @@ module "subnet3" {
   lb_ip_address       = azurerm_public_ip.lb.ip_address
 }
 
-/*
+
 # Create the Load Balancer
 module "loadbalancer" {
   source                   = "./loadbalancer"
@@ -123,7 +123,6 @@ module "loadbalancer" {
   vnet_id                  = module.network.vnet_id
   vm_sub3_ip               = module.subnet3.vm_sub3_ip
 }
-*/
 
 
 # Create the Storage Account

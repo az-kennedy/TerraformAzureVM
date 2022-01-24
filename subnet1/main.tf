@@ -46,7 +46,7 @@ resource "azurerm_availability_set" "sub1" {
   }
 }
 
-resource "azurerm_virtual_machine" "dev" {
+resource "azurerm_virtual_machine" "vmrhsub1" {
   count                            = 2
   name                             = "vmrhsub1-${count.index}"
   location                         = var.location
