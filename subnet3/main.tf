@@ -105,8 +105,20 @@ resource "azurerm_network_security_group" "sub3" {
   resource_group_name = var.resource_group_name
 
   security_rule {
-    name                       = "AllowLoadBalancer"
+    name                       = "AllowHttp"
     priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "AllowLoadBalancer"
+    priority                   = 101
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "*"
@@ -118,7 +130,7 @@ resource "azurerm_network_security_group" "sub3" {
 
   security_rule {
     name                       = "AllowInternal"
-    priority                   = 101
+    priority                   = 102
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "*"

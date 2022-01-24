@@ -100,6 +100,7 @@ module "subnet1" {
   vnet_address_space  = module.network.vnet_address_space
   vm_public_ip_ids    = [azurerm_public_ip.vmsub1_1.id, azurerm_public_ip.vmsub1_2.id]
 
+  depends_on = [module.network]
 }
 
 # Create Infrastructure for Subnet 3
@@ -110,6 +111,8 @@ module "subnet3" {
   vnet_subnets        = module.network.vnet_subnets
   vnet_address_space  = module.network.vnet_address_space
   lb_ip_address       = azurerm_public_ip.lb.ip_address
+
+  depends_on = [module.network]
 }
 
 
@@ -122,6 +125,8 @@ module "loadbalancer" {
   lb_outbound_public_ip_id = azurerm_public_ip.lbOutbound.id
   vnet_id                  = module.network.vnet_id
   vm_sub3_ip               = module.subnet3.vm_sub3_ip
+
+  depends_on = [module.subnet3]
 }
 
 
