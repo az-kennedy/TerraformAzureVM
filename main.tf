@@ -30,7 +30,7 @@ module "network" {
   subnet_names        = ["Sub1", "Sub2", "Sub3", "Sub4"]
 
   subnet_service_endpoints = {
-    "Sub1" : ["Microsoft.Storage"], 
+    "Sub1" : ["Microsoft.Storage"],
     "Sub2" : ["Microsoft.Storage"],
     "Sub3" : ["Microsoft.Storage"],
     "Sub4" : ["Microsoft.Storage"]
@@ -97,7 +97,7 @@ module "subnet3" {
   location            = azurerm_resource_group.rg.location
   vnet_subnets        = module.network.vnet_subnets
   vnet_address_space  = module.network.vnet_address_space
-  lb_ip_address       = azurerm_public_ip.lb.ip_address 
+  lb_ip_address       = azurerm_public_ip.lb.ip_address
 }
 
 # Create the Load Balancer
